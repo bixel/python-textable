@@ -1,8 +1,13 @@
 def numplaces(num, uncert=False):
     if uncert:
         l, r = '{}'.format(num).split('+/-')
-        a, b = l.split('.')
-        c, d = r.split('.')
+        try:
+            a, b = l.split('.')
+            c, d = r.split('.')
+        except:
+            a = '{:.0f}'.format(round(float(l) / 10) * 10)
+            b = ''
+            d = '{:.0f}'.format(round(float(r) / 10) * 10)
         return len(a), len(b), len(d)
     else:
         # TODO temporary hack
@@ -60,7 +65,7 @@ def table(names, cols):
         for c in cols:
             try:
                 if is_uncert(c[i]):
-                    line.append('{:L}'.format(c[i]))
+                    line.append('{:fL}'.format(c[i]))
                 else:
                     line.append('{}'.format(c[i]))
             except:
